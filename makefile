@@ -1,9 +1,9 @@
 NAME = program
 
-SOURCES = srcs/Objects.cpp srcs/main.cpp srcs/Base.cpp
+SOURCES = srcs/Objects.cpp srcs/main.cpp srcs/Window.cpp
 FLAGS = -Wall -Wextra -Werror -std=c++98
 OBJ = $(SOURCES:.cpp=.o)
-HEADER = headers/Objects.hpp
+HEADER = headers/Objects.hpp headers/Window.hpp
 
 %.o: %.cpp $(HEADER)
 	c++ $(FLAGS) -c $< -o $@

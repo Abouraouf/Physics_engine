@@ -5,6 +5,8 @@
 #include <GL/glut.h>
 #include <iostream>
 
+#define LINE_WIDTH 5.0f
+
 class Objects
 {
 	private:

@@ -7,3 +7,5 @@ Objects::Objects()
       type("unknown"),
       state(0)
 {}
+
+Objects::~Objects(){};
