@@ -8,26 +8,23 @@ void bridge_display() {
     g_base->display();
 }
 
-void mouse(int button, int state, int mx, int my)
-{
+void mouse(int button, int state, int mx, int my) {
     int flippedY = WINDOW_HEIGHT - my;
-    // int i = 0;
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
+    if (button == GLUT_LEFT_BUTTON) {
         for (auto obj : g_base->objects) {
-                if (obj->center == true)
-                    obj->startDrag(mx, flippedY);
-                else
-                    obj->put_in_middle();
-                break;
+            if (obj->isClicked(mx, flippedY)) {
+                if (state == GLUT_DOWN) {
+                    if (obj->center) {
+                        obj->startDrag(mx, flippedY);
+                    } else {
+                        obj->put_in_middle();
+                    }
+                } else if (state == GLUT_UP) {
+                    obj->stopDrag();
+                }
+                glutPostRedisplay();
+                return;  // handle only one object
             }
-    }
-    else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
-    {
-        for (auto obj : g_base->objects) {
-            if (obj->center)
-                obj->stopDrag();
-
         }
     }
 }
