@@ -11,24 +11,65 @@ Objects::Objects()
 Objects::~Objects(){}
 
 
+Triangle::Triangle()
+{
+    x_start = 800.0f;
+    y_start = 500.0f;
+    x = 160.0f;
+    y = 160.0f;
+    type = "Triangle";
+    width = 120.0f; //change later
+    height = 80.0f; //change later
+    r = 1.0f;
+    g = 0.0f;
+    b = 0.0f;
+    center = false;
+}
 
 void Triangle::draw() {
-    float X = (WINDOW_WIDTH * 0.20f)  /  2;
-    float Y = (WINDOW_HEIGHT * 0.33f)  /  2;
-
     float halfBase = 60.0f;
-    glColor3f(1.0f, 0.0f, 0.0f);
+    float topY = y + 40.0f;
+    float bottomY = y - 60.0f;
+    glColor3f(r, g, b);
     glBegin(GL_TRIANGLES);
-        glVertex2f(X, Y + 40.0f);
-        glVertex2f(X - halfBase, Y / 2);
-        glVertex2f(X + halfBase, Y / 2);
+        glVertex2f(x, topY);
+        glVertex2f(x - halfBase, bottomY);
+        glVertex2f(x + halfBase, bottomY);
     glEnd();
 }
 
-void Square::draw() {
-    // TODO: implement square drawing
+void Triangle::startDrag(int mx, int my){
+    dragged = true;
+    xoffset = x - mx;
+    yoffset = y - my;
 }
 
-void Circle::draw() {
-    // TODO: implement circle drawing
+void Triangle::stopDrag(){
+    dragged = false;
+}
+
+void Triangle::dragTo(int mx, int my){
+    if (dragged){
+        x = mx + xoffset;
+        y = my + yoffset;
+    }
+}
+
+bool Triangle::isClicked(int mx, int my) {
+    float halfBase = 60.0f;          
+    float topY = y + 40.0f;      
+    float bottomY = y;    
+
+    float leftX = x - halfBase;
+    float rightX = x + halfBase;
+
+    return mx >= leftX && mx <= rightX && my >= bottomY && my <= topY;
+}
+
+void Triangle::put_in_middle()
+{
+    x = x_start;
+    y = y_start;
+    dragged = false;
+    center = true;
 }
