@@ -4,11 +4,15 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <string>
-
+#include <chrono>
 #define LINE_WIDTH 5.0f
 
 class Objects {
 public:
+    //gravity
+    float velocity_y;
+    float gravity;
+    //moovement
     float x_start, y_start;
     float x, y;
     float width, height;
@@ -29,6 +33,9 @@ public:
     virtual void stopDrag() = 0;
     virtual void dragTo(int mx, int my) = 0;
 
+    //gravity
+    virtual void apply_gravity(float dt) = 0;
+    virtual void update(float dt) = 0;
     virtual ~Objects();
 };
 
@@ -44,8 +51,10 @@ public:
     void stopDrag() override;
     void dragTo(int mx, int my) override;
     void put_in_middle() override;
-    
-    
+
+
+    void apply_gravity(float dt) override;
+    void update(float dt) override;
     ~Triangle() override {};
 };
 
