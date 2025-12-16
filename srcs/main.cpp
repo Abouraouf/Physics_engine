@@ -1,8 +1,10 @@
 #include "../headers/Objects.hpp"
 #include "../headers/Window.hpp"
 #include "../headers/Base.hpp"
+#include "../headers/Triangle.hpp"
+#include "../headers/Square.hpp"
 
-Base* g_base = nullptr;
+Base *g_base = NULL;
 
 void bridge_display() {
     g_base->display();
@@ -16,14 +18,27 @@ void update() {
     lastTime = currentTime;
 
     for (auto obj : g_base->objects) {
-        if (Triangle* tri = dynamic_cast<Triangle*>(obj)) {
-            tri->update(dt);   // applies gravity if not dragged
+        if (obj->type == "Triangle")
+        {
+            if (Triangle* tri = dynamic_cast<Triangle*>(obj)) {
+                tri->update(dt);   // applies gravity if not dragged
+            }
         }
+        else
+            if (Square* squ = dynamic_cast<Square*>(obj)) {
+                squ->update(dt);   // applies gravity if not dragged
+            }
     }
-
     glutPostRedisplay(); // redraw the window
 }
 
+Objects *create_object(const Objects& object)
+{
+    if (object.type == "Triangle")
+        return new Triangle;
+    else
+        return new Square;
+}
 
 
 void mouse(int button, int state, int mx, int my) {
@@ -40,6 +55,8 @@ void mouse(int button, int state, int mx, int my) {
                 } else if (state == GLUT_UP) {
                     obj->stopDrag();
                 }
+                if (g_base->calulate_object(obj->type) < g_base->max)
+                    g_base->objects.push_back(create_object(*obj));
                 glutPostRedisplay();
                 return;  // handle only one object
             }
@@ -61,7 +78,9 @@ int main(int argc, char **argv) {
     Base App;
 
     Triangle* triangle = new Triangle();
+    Square* square = new Square();
     App.objects.push_back(triangle);
+    App.objects.push_back(square);
     g_base = &App;
     
     glutInit(&argc, argv);

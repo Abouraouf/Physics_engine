@@ -32,40 +32,11 @@ public:
     virtual void put_in_middle() = 0;
     virtual void stopDrag() = 0;
     virtual void dragTo(int mx, int my) = 0;
+    virtual void checkCollision(Objects* Other) = 0;
 
     //gravity
     virtual void apply_gravity(float dt) = 0;
-    virtual void update(float dt) = 0;
+    virtual void update(float dt);
     virtual ~Objects();
-};
 
-
-class Triangle : public Objects {
-public:
-    Triangle();
-    void draw() override;
-
-    //moovement
-    bool isClicked(int mx, int my) override;
-    void startDrag(int mx, int my) override;
-    void stopDrag() override;
-    void dragTo(int mx, int my) override;
-    void put_in_middle() override;
-
-
-    void apply_gravity(float dt) override;
-    void update(float dt) override;
-    ~Triangle() override {};
-};
-
-class Square : public Objects {
-public:
-    void draw() override;
-    ~Square() override {};
-};
-
-class Circle : public Objects {
-public:
-    void draw() override;
-    ~Circle() override {};
 };

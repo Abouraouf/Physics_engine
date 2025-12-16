@@ -1,6 +1,22 @@
 #include "../headers/Base.hpp"
 #include "../headers/Objects.hpp"
 
+Base::Base() : max(10)
+{
+}
+
+int Base::calulate_object(const std::string& Type)
+{
+    int count = 0;
+    for (auto obj : objects)
+    {
+        if (obj->type == Type)
+            count++;
+    }
+    return count;
+}
+
+
 void Base::drawHoriSplit(float fraction) {
     float splitX = WINDOW_HEIGHT * fraction;
 

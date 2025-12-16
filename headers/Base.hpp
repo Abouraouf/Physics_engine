@@ -8,8 +8,13 @@
 
 class Base {
 public:
+    int max;
+
+    Base();
     std::vector<Objects*> objects;
     void display();
     void drawHoriSplit(float fraction);
     void drawSmallSplit(float fraction);
+    int calulate_object(const std::string& type);
 };
+extern Base* g_base;
