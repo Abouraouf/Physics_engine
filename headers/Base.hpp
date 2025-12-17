@@ -14,7 +14,6 @@ public:
     std::vector<Objects*> objects;
     void display();
     void drawHoriSplit(float fraction);
-    void drawSmallSplit(float fraction);
-    int calulate_object(const std::string& type);
+    int  calulate_object(const std::string& type);
 };
 extern Base* g_base;

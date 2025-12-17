@@ -6,7 +6,7 @@ Triangle::Triangle()
 {
     x_start = 800.0f;
     y_start = 900.0f;
-    x = 160.0f;
+    x = 600.0f;
     y = 160.0f;
     type = "Triangle";
     r = 1.0f;
@@ -96,10 +96,10 @@ bool Triangle::isClicked(int px, int py) {
 
 void Triangle::put_in_middle()
 {
-    x = x_start;
-    y = y_start;
-    dragged = false;
-    center = true;
+        x = x_start;
+        y = y_start;
+        dragged = false;
+        center = true;
 }
 
 
@@ -157,3 +157,9 @@ void Triangle::checkCollision(Objects* Other) {
     }
 }
 
+void Triangle::putback()
+{
+        x = 600.0f;
+        y = 160.0f;
+        center = false;
+}

@@ -33,6 +33,7 @@ public:
     virtual void stopDrag() = 0;
     virtual void dragTo(int mx, int my) = 0;
     virtual void checkCollision(Objects* Other) = 0;
+    virtual void putback() = 0;
 
     //gravity
     virtual void apply_gravity(float dt) = 0;

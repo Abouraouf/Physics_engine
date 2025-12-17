@@ -12,6 +12,7 @@ public:
     void stopDrag() override;
     void dragTo(int mx, int my) override;
     void put_in_middle() override;
+    void putback() override;
 
     //gravity
     void apply_gravity(float dt) override;

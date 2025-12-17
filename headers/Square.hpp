@@ -19,6 +19,7 @@ public:
     
     //collisions
     void checkCollision(Objects* Other) override;
+    void putback() override;
     
     ~Square() override {};
 };

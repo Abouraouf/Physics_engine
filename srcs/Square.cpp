@@ -4,7 +4,7 @@
 Square::Square(){
 	x_start = 800.0f;
     y_start = 900.0f;
-    x = 480.0f;
+    x = 1000.0f;
     y = 160.0f;
     type = "Square";
     r = 0.0f;
@@ -140,8 +140,12 @@ void Square::checkCollision(Objects* Other)
     }
 }
 
-
-
-
-
-
+void Square::putback()
+{
+    if (center)
+    {
+        x = 1000.0f;
+        y = 160.0f;
+        center = false;
+    }
+}

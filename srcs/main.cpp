@@ -58,8 +58,17 @@ void mouse(int button, int state, int mx, int my) {
                 if (g_base->calulate_object(obj->type) < g_base->max)
                     g_base->objects.push_back(create_object(*obj));
                 glutPostRedisplay();
-                return;  // handle only one object
+                return;
             }
+        }
+    }
+    else if (button == GLUT_RIGHT_BUTTON){
+            for (auto obj : g_base->objects) {
+                if (obj->isClicked(mx, flippedY)) {
+            if (state == GLUT_UP) {
+                    obj->putback();
+            }
+        }
         }
     }
 }
@@ -97,8 +106,5 @@ int main(int argc, char **argv) {
         delete obj;
     }
     glutDestroyWindow(window_id);
-    // delete triangle;
-    // delete square;
-
     return 0;
 }
