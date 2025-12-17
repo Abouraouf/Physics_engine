@@ -71,29 +71,25 @@ bool Triangle::isClicked(int px, int py) {
     float topY = y + 40.0f;
     float bottomY = y - 60.0f;
 
-    // Triangle vertices
-    float Ax = x,      Ay = topY;       // top vertex
-    float Bx = x - halfBase, By = bottomY;  // bottom-left
-    float Cx = x + halfBase, Cy = bottomY;  // bottom-right
+    float Ax = x,      Ay = topY;      
+    float Bx = x - halfBase, By = bottomY;  
+    float Cx = x + halfBase, Cy = bottomY;  
 
-    // Vectors
     float v0x = Cx - Ax, v0y = Cy - Ay;
     float v1x = Bx - Ax, v1y = By - Ay;
     float v2x = px - Ax, v2y = py - Ay;
 
-    // Dot products
+
     float dot00 = v0x*v0x + v0y*v0y;
     float dot01 = v0x*v1x + v0y*v1y;
     float dot02 = v0x*v2x + v0y*v2y;
     float dot11 = v1x*v1x + v1y*v1y;
     float dot12 = v1x*v2x + v1y*v2y;
 
-    // Barycentric coordinates
     float invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
     float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
     float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
-    // Check if point is inside
     return (u >= 0) && (v >= 0) && (u + v < 1);
 }
 
@@ -111,24 +107,24 @@ void Triangle::put_in_middle()
 void Triangle::apply_gravity(float dt)
 {
     float bottomLimit = (WINDOW_HEIGHT * 0.33f) + 60.0f;
-    if (!dragged && center) {     // only apply gravity if not being dragged or centered
-        velocity_y += gravity * dt;    // update velocity_y
-        y -= velocity_y * dt;        // update position (y decreases as it falls)
-        // prevent falling below the bottom of the window
+    if (!dragged && center) {    
+        velocity_y += gravity * dt;   
+        y -= velocity_y * dt;        
+
         if (y  < bottomLimit) {
             y = bottomLimit;
-            velocity_y = 0.0f;         // stop at the floor
+            velocity_y = 0.0f;        
         }
     }
 }
 
 void Triangle::checkCollision(Objects* Other) {
     Triangle* other = dynamic_cast<Triangle*>(Other);
-    if (!other || other == this) return; // skip invalid or self
+    if (!other || other == this) return; 
 
     float halfBase = 60.0f;           
-    float topY = other->y + 40.0f;    // top vertex of the other triangle
-    float bottomY = other->y - 60.0f; // bottom vertex
+    float topY = other->y + 40.0f;    
+    float bottomY = other->y - 60.0f; 
 
     float Ax = other->x, Ay = topY;
     float Bx = other->x - halfBase, By = bottomY;
@@ -143,9 +139,7 @@ void Triangle::checkCollision(Objects* Other) {
     float thisBottomX = x;
     float thisBottomY = y - 60.0f;
 
-    // Only check if falling triangle is above the other triangle
     if (thisBottomY >= bottomY) {
-        // Left edge
         if (thisBottomX >= Bx && thisBottomX <= Ax) {
             float edgeY = slopeAB * thisBottomX + interceptAB;
             if (thisBottomY <= edgeY) {
@@ -153,7 +147,6 @@ void Triangle::checkCollision(Objects* Other) {
                 velocity_y = 0.0f;
             }
         }
-        // Right edge
         else if (thisBottomX >= Ax && thisBottomX <= Cx) {
             float edgeY = slopeAC * thisBottomX + interceptAC;
             if (thisBottomY <= edgeY) {

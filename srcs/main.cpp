@@ -14,22 +14,22 @@ void update() {
     static auto lastTime = std::chrono::high_resolution_clock::now();
     auto currentTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> elapsed = currentTime - lastTime;
-    float dt = elapsed.count();  // time in seconds since last update
+    float dt = elapsed.count(); 
     lastTime = currentTime;
 
     for (auto obj : g_base->objects) {
         if (obj->type == "Triangle")
         {
             if (Triangle* tri = dynamic_cast<Triangle*>(obj)) {
-                tri->update(dt);   // applies gravity if not dragged
+                tri->update(dt); 
             }
         }
         else
             if (Square* squ = dynamic_cast<Square*>(obj)) {
-                squ->update(dt);   // applies gravity if not dragged
+                squ->update(dt);
             }
     }
-    glutPostRedisplay(); // redraw the window
+    glutPostRedisplay();
 }
 
 Objects *create_object(const Objects& object)
@@ -86,12 +86,19 @@ int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    glutCreateWindow(window.get_name().c_str());
+    int window_id = glutCreateWindow(window.get_name().c_str());
     glutDisplayFunc(bridge_display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutIdleFunc(update);
     glutMainLoop();
+
+    for(auto obj : g_base->objects){
+        delete obj;
+    }
+    glutDestroyWindow(window_id);
+    // delete triangle;
+    // delete square;
 
     return 0;
 }

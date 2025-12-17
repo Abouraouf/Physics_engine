@@ -83,17 +83,65 @@ void Square::put_in_middle()
 void Square::apply_gravity(float dt)
 {
     float bottomLimit = (WINDOW_HEIGHT * 0.33f) + 60.0f;
-    if (!dragged && center) {     // only apply gravity if not being dragged or centered
-        velocity_y += gravity * dt;    // update velocity_y
-        y -= velocity_y * dt;        // update position (y decreases as it falls)
-        // prevent falling below the bottom of the window
+    if (!dragged && center) {   
+        velocity_y += gravity * dt;  
+        y -= velocity_y * dt;     
+
         if (y  < bottomLimit) {
             y = bottomLimit;
-            velocity_y = 0.0f;         // stop at the floor
+            velocity_y = 0.0f;         
         }
     }
 }
+void Square::checkCollision(Objects* Other)
+{
+    Square* other = dynamic_cast<Square*>(Other);
+    if (!other || other == this) return;
 
-void Square::checkCollision(Objects* Other) {
-	(void)Other;
+    float half = 60.0f;
+
+    float thisLeft   = x - half;
+    float thisRight  = x + half;
+    float thisTop    = y + half;
+    float thisBottom = y - half;
+
+    float otherLeft   = other->x - half;
+    float otherRight  = other->x + half;
+    float otherTop    = other->y + half;
+    float otherBottom = other->y - half;
+
+    if (velocity_y > 0.0f &&
+        thisBottom <= otherTop &&
+        thisBottom >= otherTop - 20.0f &&
+        thisRight > otherLeft &&
+        thisLeft < otherRight)
+    {
+        y = otherTop + half;
+        velocity_y = 0.0f;
+        return;
+    }
+
+    if (thisRight >= otherLeft &&
+        thisLeft < otherLeft &&
+        thisTop > otherBottom &&
+        thisBottom < otherTop)
+    {
+        x = otherLeft - half;
+        return;
+    }
+
+    if (thisLeft <= otherRight &&
+        thisRight > otherRight &&
+        thisTop > otherBottom &&
+        thisBottom < otherTop)
+    {
+        x = otherRight + half;
+        return;
+    }
 }
+
+
+
+
+
+
